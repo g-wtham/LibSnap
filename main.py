@@ -23,7 +23,8 @@ def create_table():
             authors VARCHAR(300),
             pageCount INTEGER,
             categories VARCHAR(200),
-            scanned_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            scanned_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            due_date TIMESTAMP DEFAULT (CURRENT_TIMESTAMP + INTERVAL '15 days')
         );
         '''
         cursor.execute(sql_query)
@@ -59,7 +60,7 @@ def scan_qr():
     both data is got the data won't be inserted into the table.
     '''
     roll_no = None      
-    isbn_number = None
+    # isbn_number = None
     
     while True:
         ret, frame =  cap.read()
@@ -79,8 +80,8 @@ def scan_qr():
                 engine.say(f'Roll Number {barcode_data} is scanned.')
                 engine.runAndWait()
                 
-            elif isbn_number is None:
-                isbn_number = barcode_data
+            # elif isbn_number is None:
+                isbn_number = 9780262035613
                 engine.say(f'ISBN number is scanned.')
                 engine.runAndWait()
                 print("Roll. No: ", roll_no, "ISBN: ", isbn_number)
