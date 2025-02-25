@@ -7,7 +7,9 @@
 3. Data Storage (NoSQL Database)
 4. Reminder Notification System (Automated Emails)
 
-Detection Part : 
+ID & Book Detection (Initial) : 
 
-https://github.com/user-attachments/assets/2e3de112-dca0-4cc7-808b-6385615a574f
+https://github.com/user-attachments/assets/0d4d91d6-19f5-45ec-bff7-10f0a3ba4232
+
+
 
