@@ -1,6 +1,7 @@
 import cv2
 from pyzbar.pyzbar import decode
 import pyttsx3
+import subprocess
 
 def scan_qr():
     engine = pyttsx3.init()
@@ -23,6 +24,8 @@ def scan_qr():
 
 
         cv2.imshow("barcode", frame)
+        if barcodes:
+            subprocess.run(['python', 'book_detect.py'])
        
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break
