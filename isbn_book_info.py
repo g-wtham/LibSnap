@@ -1,20 +1,36 @@
 import requests
 
 def get_book_info(isbn_number):
-    response = requests.get(f"https://www.googleapis.com/books/v1/volumes?q=isbn:{isbn_number}")
-    data = response.json()
-    
-    # if `items` KEY (not an value - key::value pair) not found, then google books doesn't have the data of this book
-    if "items" not in data:
-        print("Book not found.")
-        return
-            
-    # Selects the `items` dictionary from the `data` json object..       
-    books_json = data["items"][0]["volumeInfo"]
-    
-    return {
-        'title' : books_json.get("title", "unknown_book"),
-        'authors' : books_json.get("authors", ["unknown_author"]),
-        'pageCount' : books_json.get("pageCount", "unknown_pages"),
-        'categories' : books_json.get("categories", "unknown_category"),
-    }
+    google_url = f"https://www.googleapis.com/books/v1/volumes?q=isbn:{isbn_number}"
+    google_response = requests.get(google_url)
+    google_data = google_response.json()
+
+    if "items" in google_data and google_data["items"]:
+        google_book = google_data["items"][0]["volumeInfo"]
+        return {
+            'title': google_book.get("title", "Unknown Book"),
+            'authors': google_book.get("authors", ["Unknown Author"]),
+            'pageCount': google_book.get("pageCount", "Unknown Pages"),
+            'categories': google_book.get("categories", ["Unknown Category"]),
+            'publish_date': google_book.get("publishedDate", "Unknown Date"),
+            'publisher': google_book.get("publisher", "Unknown Publisher")
+        }
+
+    openlibrary_url = f"https://openlibrary.org/api/books?bibkeys=ISBN:{isbn_number}&format=json&jscmd=data"
+    openlibrary_response = requests.get(openlibrary_url)
+    openlibrary_data = openlibrary_response.json()
+
+    key = f"ISBN:{isbn_number}"
+    if key in openlibrary_data:
+        openlibrary_book = openlibrary_data[key]
+        return {
+            'title': openlibrary_book.get("title", "Unknown Book") + 
+                     (": " + openlibrary_book.get("subtitle", "Unknown Subtitle")),
+            'authors': openlibrary_book.get("authors", ["Unknown Author"]),
+            'pageCount': openlibrary_book.get("pageCount", "Unknown Pages"),
+            'categories': openlibrary_book.get("categories", ["Unknown Category"]),
+            'publish_date': openlibrary_book.get("publishedDate", "Unknown Date"),
+            'publisher': openlibrary_book.get("publisher", "Unknown Publisher")
+        }
+
+    return {"error": "Book not found in both Google Books and Open Library"}
