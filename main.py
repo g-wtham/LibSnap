@@ -60,7 +60,7 @@ def scan_qr():
     both data is got the data won't be inserted into the table.
     '''
     roll_no = None      
-    # isbn_number = None
+    isbn_number = None
     
     while True:
         ret, frame =  cap.read()
@@ -80,8 +80,8 @@ def scan_qr():
                 engine.say(f'Roll Number {barcode_data} is scanned.')
                 engine.runAndWait()
                 
-            # elif isbn_number is None:
-                isbn_number = 9780262035613
+            elif isbn_number is None:
+                isbn_number = barcode_data
                 engine.say(f'ISBN number is scanned.')
                 engine.runAndWait()
                 print("Roll. No: ", roll_no, "ISBN: ", isbn_number)
