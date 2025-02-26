@@ -4,6 +4,8 @@ import pyttsx3
 # import subprocess
 import psycopg2 as postgres
 from isbn_book_info import get_book_info
+from email_alert import get_email
+from email_alert import send_mail
 
 def get_db_connection():
     return postgres.connect(
@@ -96,6 +98,13 @@ def scan_qr():
 
                 insert_data(roll_no, isbn_number, title, authors, pageCount, categories)
                 print("Book information insertion successful!")
+
+                conn = get_db_connection()
+                to_email = get_email(conn, roll_no)
+                if to_email:
+                    send_mail(to_email=to_email, subject=f"Book Reminder for {roll_no}", text=f"You have borrowed the book {title} by author {authors}")
+                else:
+                    print("Email not found.")
                 
                 # Reset variables for NEXT SCAN!
                 roll_no = None
