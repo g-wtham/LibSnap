@@ -26,8 +26,8 @@ def get_book_info(isbn_number):
         return {
             'title': openlibrary_book.get("title", "Unknown Book") + 
                      (": " + openlibrary_book.get("subtitle", "Unknown Subtitle")),
-            'authors': openlibrary_book.get("authors", ["Unknown Author"]),
-            'pageCount': openlibrary_book.get("pageCount", "Unknown Pages"),
+            'authors': openlibrary_book.get("authors", ["Unknown Author"])[0]["name"],
+            'pageCount': openlibrary_book.get("pageCount") or openlibrary_book.get("number_of_pages") ,
             'categories': openlibrary_book.get("categories", ["Unknown Category"]),
             'publish_date': openlibrary_book.get("publishedDate", "Unknown Date"),
             'publisher': openlibrary_book.get("publisher", "Unknown Publisher")
