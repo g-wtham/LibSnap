@@ -10,10 +10,13 @@
 Initial Stage :
 
 ID & Book Detection : 
-https://github.com/user-attachments/assets/c436baa1-6b42-4e2b-ae17-8a4ad6789751
+
+https://github.com/user-attachments/assets/5030b85e-59fa-46b3-86b0-e6885e3a7108
 
 Book Detection using YOLOv11 :
-https://github.com/user-attachments/assets/569a87cf-48fb-4dc8-9d5c-5f54080723ef
+
+https://github.com/user-attachments/assets/98dbaf00-430f-4d0a-a0c3-e46cdacfebb0
+
 
 
 
