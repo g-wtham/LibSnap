@@ -9,7 +9,8 @@
 
 ID & Book Detection (Initial) : 
 
-https://github.com/user-attachments/assets/0d4d91d6-19f5-45ec-bff7-10f0a3ba4232
+https://github.com/user-attachments/assets/c436baa1-6b42-4e2b-ae17-8a4ad6789751
+
 
 
 
