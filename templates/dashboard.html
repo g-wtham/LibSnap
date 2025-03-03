@@ -7,5 +7,11 @@
 </head>
 <body>
     <h2>Welcome to the dashboard</h2>
+    <h3>Books borrowed by {{ roll_num }}</h3>
+    <ul>
+        {% for book in book_data %} 
+            <li>Book Title: {{ book[0] }} | Page Count : {{ book[1] }} </li>
+        {% endfor %}
+    </ul>
 </body>
 </html>
