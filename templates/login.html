@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LibSnap</title>
+    <link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+    <form class="login-up-form" action="/login" method="POST">
+        <h2>Login</h2>
+        <label>Roll Number: </label>
+        <input type="text" name="roll_number" placeholder="Eg..22ADR011" required><br>
+        <label>Email ID: </label>
+        <input type="email" name="email" required><br>
+        <label>Password: </label>
+        <input type="password" name="password" required><br>
+        <button type="submit">Log In</button>
+        <a href="{{ url_for('signup')}}">New here? Sign UP</a>
+    </form>
+    
+</body>
+</html>
