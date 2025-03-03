@@ -1,7 +1,8 @@
-from flask import request, render_template, Flask, redirect, url_for, session, flash
+from flask import request, render_template, Flask, redirect, url_for, session
 import psycopg2 as postgres
 
 app = Flask(__name__, static_folder="assets")
+app.secret_key = 'libsnap_database_updates'
 
 def get_db_connection():
     return postgres.connect(
@@ -50,6 +51,8 @@ def login():
         result = cursor.fetchone()
 
         if result:
+            session['roll_number'] = result[0]
+            session['email'] = result[1]
             return redirect(url_for('dashboard'))
         else:
             return redirect(url_for('login'))
@@ -58,8 +61,23 @@ def login():
 
 @app.route("/dashboard")
 def dashboard():
-    return render_template('dashboard.html')
+    if 'roll_number' not in session:
+        return redirect(url_for('login')) # should RETURN the redirected url
+    
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    
+    roll_number_session = session['roll_number']
+    
+    sql_query_session = '''SELECT DISTINCT title, pageCount from scanned_records WHERE roll_number = %s '''
+    cursor.execute(sql_query_session, (roll_number_session, ))
+    result = cursor.fetchall()
+    print(result) 
+    conn.commit()
+    cursor.close()
+    conn.close()
+    
+    return render_template('dashboard.html', roll_num=roll_number_session, book_data=result )
 
 if __name__ == '__main__':
     app.run()
-
