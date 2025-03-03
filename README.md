@@ -9,7 +9,11 @@
 
 Initial Stage :
 
-ID & Book Detection : 
+Edited :
+
+https://github.com/user-attachments/assets/42552fc7-5a3d-4d9c-b123-2dfd57e323bf
+
+ID & Book Detection - Uncut Version : 
 
 https://github.com/user-attachments/assets/5030b85e-59fa-46b3-86b0-e6885e3a7108
 
