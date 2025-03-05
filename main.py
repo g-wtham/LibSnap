@@ -6,6 +6,7 @@ import psycopg2 as postgres
 from isbn_book_info import get_book_info
 from email_alert import get_email
 from email_alert import send_mail
+import subprocess
 
 def get_db_connection():
     return postgres.connect(
@@ -62,7 +63,7 @@ def scan_qr():
     both data is got the data won't be inserted into the table.
     '''
     roll_no = None      
-    isbn_number = 9781999579517
+    isbn_number = None
     
     while True:
         ret, frame =  cap.read()
@@ -82,7 +83,7 @@ def scan_qr():
                 engine.say(f'Roll Number {barcode_data} is scanned.')
                 engine.runAndWait()
                 
-            if isbn_number:
+            if isbn_number is None:
                 isbn_number = isbn_number
                 engine.say(f'ISBN number is scanned.')
                 engine.runAndWait()
@@ -116,6 +117,7 @@ def scan_qr():
                     print("Email not found.")
                     engine.say("Email not found, please sign up with your email id to receive reminder.")
                     engine.runAndWait()
+                    subprocess.run(['python', 'users.py'])
                     
                 cursor.close()
                 conn.close()
