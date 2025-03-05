@@ -1,0 +1,8 @@
+flask
+pyttsx3
+opencv-python
+pyzbar
+requests
+psycopg2
+python-dotenv
+ultralytics
