@@ -3,15 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
+    <title>LibSnap - Dashboard</title>
+    <link rel="stylesheet" href="../assets/dashboard.css"> </head>
 <body>
-    <h2>Welcome to the dashboard</h2>
-    <h3>Books borrowed by {{ roll_num }}</h3>
-    <ul>
-        {% for book in book_data %} 
-            <li>Book Title: {{ book[0] }} | Page Count : {{ book[1] }} </li>
-        {% endfor %}
-    </ul>
+        <h2>Welcome to the dashboard!</h2>
+        <h4>Logged in as {{ user_email }}</h4>
+        <div class="dashboard-container">
+        <h3>Books borrowed by {{ roll_num }}</h3>
+        <ul>
+            {% for book in book_data %}
+            <li><strong>Book Title:</strong> {{ book[0] }} | <strong>Page Count:</strong> {{ book[1] }}</li>
+            {% endfor %}
+        </ul>
+    </div>
 </body>
 </html>

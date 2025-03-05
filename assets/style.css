@@ -1,17 +1,80 @@
 html{
     margin: 0;
+    background-image: url(./images/library-bg.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 100vh;
 }
 
 body{
     display: flex;
+    height: 98vh;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .sign-up-form{
     display: flex;
     justify-content: center;
     align-items: center;
+    border-radius: 12px;
+    border: 5px;
+    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.2);
+    align-items: center;
+    padding: 0 30px 30px 30px;
+    width: 300px;
     flex-direction: column;
+    background-color: rgba(255, 255, 255, 0.929);
+}
+
+.sign-up-form > a {
+    margin-top: 20px;
+    text-decoration: none;
+    font-size: 17px;
+    font-weight: 500;
+}
+
+.sign-up-form > a:hover{
+    color:rgb(186, 99, 0);
+    text-shadow: 0 0 30px rgb(241, 156, 59);
+}
+
+.sign-up-form input[type="text"],
+.sign-up-form input[type="email"],
+.sign-up-form input[type="password"]{
+    width: 90%;
+    padding: 8px;
+    border-radius: 10px;
+    margin: 5px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+label{
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-weight: 600;
+    font-size: 18px;
+    margin-top: 5px;
+}
+
+
+.sign-up-form > button[type="submit"] {
+    width: 70%;
+    padding: 12px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.sign-up-form > button[type="submit"]:hover{
+    background-color: rgb(186, 99, 0);
+}
+
+.dashboard-container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }

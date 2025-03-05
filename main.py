@@ -62,7 +62,7 @@ def scan_qr():
     both data is got the data won't be inserted into the table.
     '''
     roll_no = None      
-    isbn_number = None
+    isbn_number = 9781999579517
     
     while True:
         ret, frame =  cap.read()
@@ -82,8 +82,8 @@ def scan_qr():
                 engine.say(f'Roll Number {barcode_data} is scanned.')
                 engine.runAndWait()
                 
-            elif isbn_number is None:
-                isbn_number = barcode_data
+            if isbn_number:
+                isbn_number = isbn_number
                 engine.say(f'ISBN number is scanned.')
                 engine.runAndWait()
                 print("Roll. No: ", roll_no, "ISBN: ", isbn_number)
@@ -98,12 +98,17 @@ def scan_qr():
 
                 insert_data(roll_no, isbn_number, title, authors, pageCount, categories)
                 print("Book information insertion successful!")
-
-                conn = get_db_connection()
-                cursor = conn.cursor()
-                email_query = '''SELECT email FROM new_users WHERE roll_number = %s LIMIT 1'''
-                cursor.execute(email_query, (roll_no, ))
-                result = cursor.fetchone()
+                
+                result = None
+                try:
+                    conn = get_db_connection()
+                    cursor = conn.cursor()
+                    email_query = '''SELECT email FROM new_users WHERE roll_number = %s LIMIT 1'''
+                    cursor.execute(email_query, (roll_no, ))
+                    result = cursor.fetchone()
+                except Exception as e:
+                    print("User does not exist! Sign UP")
+                    print("\n", e)
                 
                 if result:
                     send_mail(to_email=result[0], subject=f"Book Reminder for {roll_no}", text=f"You have borrowed the book '{title}' written by author '{authors}'")

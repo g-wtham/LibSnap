@@ -44,10 +44,9 @@ def login():
         conn = get_db_connection()
         cursor = conn.cursor()
         roll_number = request.form['roll_number']
-        email = request.form['email']
         password = request.form['password']
-        login_query = '''SELECT roll_number, email, password from new_users where roll_number = %s AND email = %s AND password = %s '''
-        cursor.execute(login_query, (roll_number, email, password))
+        login_query = '''SELECT roll_number, email, password from new_users where roll_number = %s AND password = %s '''
+        cursor.execute(login_query, (roll_number, password))
         result = cursor.fetchone()
 
         if result:
@@ -68,6 +67,7 @@ def dashboard():
     cursor = conn.cursor()
     
     roll_number_session = session['roll_number']
+    email_session = session['email']
     
     sql_query_session = '''SELECT DISTINCT title, pageCount from scanned_records WHERE roll_number = %s '''
     cursor.execute(sql_query_session, (roll_number_session, ))
@@ -77,7 +77,7 @@ def dashboard():
     cursor.close()
     conn.close()
     
-    return render_template('dashboard.html', roll_num=roll_number_session, book_data=result )
+    return render_template('dashboard.html', roll_num=roll_number_session, book_data=result, user_email = email_session )
 
 if __name__ == '__main__':
     app.run()
