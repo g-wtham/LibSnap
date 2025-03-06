@@ -55,7 +55,7 @@ def insert_data(qr_roll_no, isbn_number, title, authors, pageCount, categories):
 
 def scan_qr():
     engine = pyttsx3.init()
-    cap = cv2.VideoCapture(1)
+    cap = cv2.VideoCapture(0)
     
     '''
     Roll.no & isbn is set to None, so 1st scan we get 'roll_no'; 2nd scan we get 'isbn', until
@@ -115,7 +115,8 @@ def scan_qr():
                     cursor.execute(due_date_query, (roll_no, ))
                     result1 = cursor.fetchone()
                     db_due_date = result1[0]
-                    send_mail(to_email=result[0], subject=f"Book Reminder for {roll_no}", text=f"You have borrowed the book '{title}' written by '{authors}'. \nYour book due date is on '{db_due_date}'.\n\nRegards,\nTeam LibSnap")
+                    date_only = db_due_date.date()
+                    send_mail(to_email=result[0], subject=f"Book Reminder for {roll_no}", text=f"You have borrowed the book '{title}' written by '{authors}'. \nYour book due date is on '{date_only}'.\n\nRegards,\nTeam LibSnap")
                     subprocess.run(['python', 'users.py'])
                 else:
                     print("Email not found.")
