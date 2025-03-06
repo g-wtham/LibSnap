@@ -32,7 +32,7 @@ while True and not book_detected:
 
         for box in boxes:
             confidence = box.conf[0].item()
-            if confidence >= 0.85:
+            if confidence >= 0.78:
                 x1, y1, x2, y2 = box.xyxy[0]
                 x1, y1, x2, y2 = int(x1), int(y1), int(x2), int(y2)
 
@@ -69,6 +69,8 @@ while True and not book_detected:
 
     if cv2.waitKey(1) == ord('q'):
         break
+    import time
+    time.sleep(0.2)
 
 cap.release()
 cv2.destroyAllWindows()
