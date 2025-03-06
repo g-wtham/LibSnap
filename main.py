@@ -139,5 +139,48 @@ def scan_qr():
 
     cap.release()
     cv2.destroyAllWindows()
-           
-scan_qr()
+    
+import tkinter as tk
+import threading
+def start_scan():
+    print("Scanning started...")
+    threading.Thread(target=scan_qr, daemon=True).start() 
+    
+def stop_scan():
+    print("Scanning stopped.")
+    exit()
+    
+import webbrowser
+
+def dashboard_shortcut():
+    webbrowser.open("http://localhost:5000")
+    subprocess.run(['python', 'users.py'])
+    
+def bookscan_ocr():
+    subprocess.run(['python', 'book_detect.py'])
+    
+root = tk.Tk()
+root.title("LibSnap")
+root.geometry("500x400")
+
+info_label = tk.Label(root, text="Instructions:\n1. Scan first: Student ID\n2. Then: Scan Book QR Code\n3. Wait for confirmation\n4. Check email for due date\n5. Check dashboard for borrowed books so far", 
+                      font=("Arial", 10))
+info_label.pack(pady=10)
+
+start_button = tk.Button(root, text="Start", command=start_scan, font=("Arial", 12), width=10, bg="green", fg="white")
+start_button.pack(pady=10)
+
+stop_button = tk.Button(root, text="Stop", command=stop_scan, font=("Arial", 12), width=10, bg="red", fg="white")
+stop_button.pack(pady=10)
+
+dashboard_button = tk.Button(root, text="Dashboard", command=dashboard_shortcut, font=("Arial", 12), width=10, bg="blue", fg="white")
+dashboard_button.pack(pady=10)
+
+book_scan_ocr = tk.Button(root, text="Book Scan OCR", command=bookscan_ocr, font=("Arial", 12), width=15, bg="blue", fg="white")
+book_scan_ocr.pack(pady=10)
+
+info_label = tk.Label(root, text="Press 'q' on keyboard to exit from camera", 
+                      font=("Arial", 10))
+info_label.pack(pady=10)
+
+root.mainloop()
