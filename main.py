@@ -103,17 +103,20 @@ def scan_qr():
                 try:
                     conn = get_db_connection()
                     cursor = conn.cursor()
-                    email_query = '''SELECT email, due_date FROM new_users WHERE roll_number = %s LIMIT 1'''
+                    email_query = '''SELECT email FROM new_users WHERE roll_number = %s LIMIT 1'''
                     cursor.execute(email_query, (roll_no, ))
                     result = cursor.fetchone()
                 except Exception as e:
                     print("User does not exist! Sign UP")
                     print("\n", e)
                 
-                if result:
-                    db_email = result[0]
-                    db_due_date = result[1]
-                    send_mail(to_email=db_email, subject=f"Book Reminder for {roll_no}", text=f"You have borrowed the book '{title}' written by '{authors}'. \nYour book due date is on '{db_due_date}'.\n\nRegards,\nTeam LibSnap")
+                if result:  
+                    due_date_query = '''SELECT due_date FROM scanned_records WHERE roll_number = %s LIMIT 1'''
+                    cursor.execute(due_date_query, (roll_no, ))
+                    result1 = cursor.fetchone()
+                    db_due_date = result1[0]
+                    send_mail(to_email=result[0], subject=f"Book Reminder for {roll_no}", text=f"You have borrowed the book '{title}' written by '{authors}'. \nYour book due date is on '{db_due_date}'.\n\nRegards,\nTeam LibSnap")
+                    subprocess.run(['python', 'users.py'])
                 else:
                     print("Email not found.")
                     engine.say("Email not found, please sign up with your email id to receive reminder.")
