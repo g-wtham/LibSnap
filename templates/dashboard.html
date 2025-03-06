@@ -14,7 +14,7 @@
         <h3>Books borrowed by {{ roll_num }}</h3>
         <ul>
             {% for book in book_data %}
-            <li><strong>Book Title:</strong> {{ book[0] }} | <strong>Page Count:</strong> {{ book[1] }}</li>
+            <li><strong>Book Title:</strong> {{ book[0] }} | <strong>Author: </strong> {{ book[1] }}</li>
             {% endfor %}
         </ul>
     </div>

@@ -1,12 +1,11 @@
 import cv2
 from pyzbar.pyzbar import decode
 import pyttsx3
-# import subprocess
+import subprocess
 import psycopg2 as postgres
 from isbn_book_info import get_book_info
 from email_alert import get_email
 from email_alert import send_mail
-import subprocess
 
 def get_db_connection():
     return postgres.connect(
@@ -56,7 +55,7 @@ def insert_data(qr_roll_no, isbn_number, title, authors, pageCount, categories):
 
 def scan_qr():
     engine = pyttsx3.init()
-    cap = cv2.VideoCapture(0)
+    cap = cv2.VideoCapture(1)
     
     '''
     Roll.no & isbn is set to None, so 1st scan we get 'roll_no'; 2nd scan we get 'isbn', until
@@ -83,8 +82,8 @@ def scan_qr():
                 engine.say(f'Roll Number {barcode_data} is scanned.')
                 engine.runAndWait()
                 
-            if isbn_number is None:
-                isbn_number = isbn_number
+            elif isbn_number is None:
+                isbn_number = barcode_data
                 engine.say(f'ISBN number is scanned.')
                 engine.runAndWait()
                 print("Roll. No: ", roll_no, "ISBN: ", isbn_number)
@@ -104,7 +103,7 @@ def scan_qr():
                 try:
                     conn = get_db_connection()
                     cursor = conn.cursor()
-                    email_query = '''SELECT email FROM new_users WHERE roll_number = %s LIMIT 1'''
+                    email_query = '''SELECT email, due_date FROM new_users WHERE roll_number = %s LIMIT 1'''
                     cursor.execute(email_query, (roll_no, ))
                     result = cursor.fetchone()
                 except Exception as e:
@@ -112,7 +111,9 @@ def scan_qr():
                     print("\n", e)
                 
                 if result:
-                    send_mail(to_email=result[0], subject=f"Book Reminder for {roll_no}", text=f"You have borrowed the book '{title}' written by author '{authors}'")
+                    db_email = result[0]
+                    db_due_date = result[1]
+                    send_mail(to_email=db_email, subject=f"Book Reminder for {roll_no}", text=f"You have borrowed the book '{title}' written by '{authors}'. \nYour book due date is on '{db_due_date}'.\n\nRegards,\nTeam LibSnap")
                 else:
                     print("Email not found.")
                     engine.say("Email not found, please sign up with your email id to receive reminder.")

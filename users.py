@@ -69,7 +69,7 @@ def dashboard():
     roll_number_session = session['roll_number']
     email_session = session['email']
     
-    sql_query_session = '''SELECT DISTINCT title, pageCount from scanned_records WHERE roll_number = %s '''
+    sql_query_session = '''SELECT DISTINCT title, authors from scanned_records WHERE roll_number = %s '''
     cursor.execute(sql_query_session, (roll_number_session, ))
     result = cursor.fetchall()
     print(result) 
