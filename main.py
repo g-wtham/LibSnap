@@ -154,10 +154,10 @@ import webbrowser
 
 def dashboard_shortcut():
     webbrowser.open("http://localhost:5000")
-    subprocess.run(['python', 'users.py'])
+    threading.Thread(target=lambda: subprocess.run(['python', 'users.py'])).start()
     
 def bookscan_ocr():
-    subprocess.run(['python', 'book_detect.py'])
+    threading.Thread(target=lambda: subprocess.run(['python', 'book_detect.py'])).start()
     
 root = tk.Tk()
 root.title("LibSnap")
